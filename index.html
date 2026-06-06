@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StellarExpert Token Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css" />
+  <style>
+    /* ─── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #050d1a;
+      --surface:   #0b1628;
+      --surface2:  #111f35;
+      --border:    rgba(255,255,255,0.07);
+      --border2:   rgba(255,255,255,0.13);
+      --accent:    #0ea5e9;
+      --accent2:   #38bdf8;
+      --gold:      #f59e0b;
+      --text:      #e2eaf4;
+      --muted:     #6b8198;
+      --faint:     #2a3d54;
+      --font:      'Syne', sans-serif;
+      --mono:      'IBM Plex Mono', monospace;
+      --radius:    12px;
+      --radius-sm: 7px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Stars background ──────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 12% 20%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 34% 8%,  rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 56% 31%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 14%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 91% 40%, rgba(255,255,255,0.3)  0%, transparent 100%),
+        radial-gradient(1px 1px at 5%  65%, rgba(255,255,255,0.4)  0%, transparent 100%),
+        radial-gradient(1px 1px at 23% 72%, rgba(255,255,255,0.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 47% 85%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 68% 58%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 78%, rgba(255,255,255,0.3)  0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.4)  0%, transparent 100%),
+        radial-gradient(1px 1px at 39% 52%, rgba(255,255,255,0.2)  0%, transparent 100%),
+        radial-gradient(1px 1px at 62% 44%, rgba(255,255,255,0.3)  0%, transparent 100%),
+        radial-gradient(1px 1px at 82% 92%, rgba(255,255,255,0.45) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Layout ────────────────────────────────────────────── */
+    .page { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+    /* ─── Nav ───────────────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5,13,26,0.82);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.75); }
+    }
+    .nav-link {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.15s;
+    }
+    .nav-link:hover { color: var(--text); }
+
+    /* ─── Hero ──────────────────────────────────────────────── */
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 0.5px solid rgba(14,165,233,0.3);
+      border-radius: 20px;
+      padding: 5px 14px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.5s ease both;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      animation: fadeUp 0.5s 0.08s ease both;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 1.75rem;
+      animation: fadeUp 0.5s 0.16s ease both;
+    }
+    .issuer-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      animation: fadeUp 0.5s 0.24s ease both;
+    }
+    .issuer-row i { color: var(--accent); font-size: 13px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Stats bar ─────────────────────────────────────────── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+    .stat-cell {
+      background: var(--surface);
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-cell .s-label {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .stat-cell .s-label i { font-size: 14px; color: var(--accent); }
+    .stat-cell .s-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── Section header ────────────────────────────────────── */
+    .sec-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+    .sec-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .sec-line {
+      flex: 1;
+      height: 0.5px;
+      background: var(--border);
+    }
+
+    /* ─── Token grid ────────────────────────────────────────── */
+    .tokens-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 3rem;
+    }
+    .token-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1rem;
+      display: block;
+      transition: border-color 0.2s, background 0.2s, transform 0.18s;
+      cursor: pointer;
+      animation: fadeUp 0.5s ease both;
+    }
+    .token-card:hover {
+      border-color: var(--border2);
+      background: var(--surface2);
+      transform: translateY(-2px);
+    }
+    .t-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+    }
+    .t-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .t-ticker {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .t-link {
+      font-size: 11px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .t-link i { font-size: 11px; }
+
+    /* ─── CTA banner ────────────────────────────────────────── */
+    .cta-banner {
+      background: var(--surface);
+      border: 0.5px solid rgba(14,165,233,0.25);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(14,165,233,0.06);
+      pointer-events: none;
+    }
+    .cta-text .cta-title {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .cta-text .cta-sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 11px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .cta-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .cta-btn:active { transform: scale(0.97); }
+    .cta-btn i { font-size: 17px; }
+
+    /* ─── Advantages ────────────────────────────────────────── */
+    .adv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+      margin-bottom: 3rem;
+    }
+    .adv-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: border-color 0.2s;
+    }
+    .adv-card:hover { border-color: var(--border2); }
+    .adv-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(14,165,233,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .adv-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .adv-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── About Stellar section ─────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 600px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .about-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .about-card h3 i { color: var(--accent); font-size: 18px; }
+    .about-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ─── Footer ────────────────────────────────────────────── */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); }
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    footer .footer-links a {
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      transition: color 0.15s;
+    }
+    footer .footer-links a:hover { color: var(--text); }
+
+    /* ─── Scrollbar ─────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">
+    <div class="dot" aria-hidden="true"></div>
+    StellarExpert
+  </div>
+  <a class="nav-link" href="https://stellar.expert" target="_blank" rel="noopener">
+    <i class="ti ti-external-link" aria-hidden="true"></i> Explorer
+  </a>
+</nav>
+
+<div class="page">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag"><i class="ti ti-brand-github" aria-hidden="true"></i> Stellar Network · Token Hub</div>
+    <h1>Ecosystem tokens<br>on <span>Stellar</span> blockchain</h1>
+    <p>A curated collection of infrastructure tokens issued on the Stellar public network — explore, hold, and trade at near-zero cost.</p>
+    <div class="issuer-row">
+      <i class="ti ti-shield-check" aria-hidden="true"></i>
+      Issuer: GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="stats-bar" role="list" aria-label="Stellar network statistics">
+    <div class="stat-cell" role="listitem">
+      <span class="s-label"><i class="ti ti-clock" aria-hidden="true"></i> Settlement</span>
+      <span class="s-value">3–5 sec</span>
+    </div>
+    <div class="stat-cell" role="listitem">
+      <span class="s-label"><i class="ti ti-coin" aria-hidden="true"></i> Avg fee</span>
+      <span class="s-value">0.00001 XLM</span>
+    </div>
+    <div class="stat-cell" role="listitem">
+      <span class="s-label"><i class="ti ti-bolt" aria-hidden="true"></i> Max TPS</span>
+      <span class="s-value">1,000</span>
+    </div>
+    <div class="stat-cell" role="listitem">
+      <span class="s-label"><i class="ti ti-layers" aria-hidden="true"></i> Assets issued</span>
+      <span class="s-value">455,000+</span>
+    </div>
+  </div>
+
+  <!-- Tokens -->
+  <div class="sec-header">
+    <span class="sec-label">Tokens</span>
+    <div class="sec-line"></div>
+  </div>
+  <div class="tokens-grid" id="tokens-grid" role="list"></div>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <div class="cta-text">
+      <div class="cta-title">Trade on StellarTerm DEX</div>
+      <div class="cta-sub">Open-source, non-custodial. Access all tokens instantly.</div>
+    </div>
+    <a class="cta-btn"
+       href="https://stellarterm.com/exchange/XLM-native/GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+       target="_blank" rel="noopener">
+      <i class="ti ti-arrows-exchange" aria-hidden="true"></i>
+      Open StellarTerm
+    </a>
+  </div>
+
+  <!-- Advantages -->
+  <div class="sec-header">
+    <span class="sec-label">Why hold long-term</span>
+    <div class="sec-line"></div>
+  </div>
+  <div class="adv-grid">
+    <div class="adv-card">
+      <div class="adv-icon"><i class="ti ti-currency-dollar" aria-hidden="true"></i></div>
+      <div class="adv-title">Ultra-low entry cost</div>
+      <div class="adv-desc">Micro-cap tokens on Stellar cost fractions of a cent, making large positions accessible at minimal capital outlay.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><i class="ti ti-trending-up" aria-hidden="true"></i></div>
+      <div class="adv-title">Asymmetric upside</div>
+      <div class="adv-desc">Small-cap assets have shown outsized returns when ecosystems mature — early entry captures the full growth curve.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+      <div class="adv-title">Near-zero fees</div>
+      <div class="adv-desc">Stellar's 0.00001 XLM base fee means holding, moving, and trading these tokens is essentially free at any frequency.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><i class="ti ti-lock" aria-hidden="true"></i></div>
+      <div class="adv-title">On-chain transparency</div>
+      <div class="adv-desc">Every issuance and trade is publicly auditable on StellarExpert — no hidden minting or opaque supply changes.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></div>
+      <div class="adv-title">Built-in DEX liquidity</div>
+      <div class="adv-desc">Stellar's native DEX means instant exit — no third-party bridges, no liquidity pools, no waiting.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+      <div class="adv-title">Diversified exposure</div>
+      <div class="adv-desc">Eight tokens spanning infra, tooling, and network layers spread risk across Stellar's entire ecosystem growth.</div>
+    </div>
+  </div>
+
+  <!-- About Stellar -->
+  <div class="sec-header">
+    <span class="sec-label">About Stellar</span>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-card">
+      <h3><i class="ti ti-world" aria-hidden="true"></i> What is Stellar?</h3>
+      <p>Stellar is an open-source, decentralized payment protocol designed for fast, low-cost cross-border transactions. Founded in 2014, it enables anyone to build financial products that connect people everywhere.</p>
+    </div>
+    <div class="about-card">
+      <h3><i class="ti ti-cpu" aria-hidden="true"></i> Soroban smart contracts</h3>
+      <p>Stellar's Soroban platform brings Rust-based smart contracts to the network, enabling DeFi, NFTs, and complex financial instruments — all with the same low fees and fast finality.</p>
+    </div>
+    <div class="about-card">
+      <h3><i class="ti ti-network" aria-hidden="true"></i> Federated consensus</h3>
+      <p>Stellar uses the Federated Byzantine Agreement (FBA) model — transactions confirm in 3–5 seconds without energy-intensive mining, making it one of the greenest blockchains available.</p>
+    </div>
+    <div class="about-card">
+      <h3><i class="ti ti-building-bank" aria-hidden="true"></i> Real-world adoption</h3>
+      <p>Used by MoneyGram, Circle (USDC), and dozens of central banks for CBDC pilots. Stellar processes millions of transactions monthly across 200+ countries.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <a href="https://stellar.expert" target="_blank" rel="noopener"><i class="ti ti-telescope" aria-hidden="true"></i> StellarExpert</a>
+    <a href="https://stellarterm.com" target="_blank" rel="noopener"><i class="ti ti-arrows-exchange" aria-hidden="true"></i> StellarTerm DEX</a>
+    <a href="https://stellar.org" target="_blank" rel="noopener"><i class="ti ti-world" aria-hidden="true"></i> Stellar.org</a>
+    <a href="https://developers.stellar.org" target="_blank" rel="noopener"><i class="ti ti-code" aria-hidden="true"></i> Developers</a>
+  </div>
+  <p>All tokens issued by <code>GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD</code> </p>
+</footer>
+
+<script>
+  const BASE = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD";
+  const tokens = [
+    { name: "Core",      letter: "C",  bg: "rgba(14,165,233,0.12)",  color: "#38bdf8" },
+    { name: "Futurenet", letter: "F",  bg: "rgba(139,92,246,0.12)",  color: "#a78bfa" },
+    { name: "Horizon",   letter: "H",  bg: "rgba(16,185,129,0.12)",  color: "#34d399" },
+    { name: "Hubble",    letter: "Hu", bg: "rgba(236,72,153,0.12)",  color: "#f472b6" },
+    { name: "Mainnet",   letter: "M",  bg: "rgba(245,158,11,0.12)",  color: "#fbbf24" },
+    { name: "Node",      letter: "N",  bg: "rgba(107,114,128,0.12)", color: "#9ca3af" },
+    { name: "RPC",       letter: "R",  bg: "rgba(239,68,68,0.12)",   color: "#f87171" },
+    { name: "Testnet",   letter: "T",  bg: "rgba(6,182,212,0.12)",   color: "#22d3ee" },
+    { name: "Validator", letter: "V",  bg: "rgba(132,204,22,0.12)",  color: "#a3e635" },
+  ];
+
+  const grid = document.getElementById("tokens-grid");
+  tokens.forEach((t, i) => {
+    const url = `https://stellar.expert/explorer/public/asset/${t.name}-${BASE}`;
+    const card = document.createElement("a");
+    card.className = "token-card";
+    card.href = url;
+    card.target = "_blank";
+    card.rel = "noopener";
+    card.setAttribute("role", "listitem");
+    card.style.animationDelay = `${i * 0.055}s`;
+    card.innerHTML = `
+      <div class="t-icon" style="background:${t.bg}; color:${t.color};">${t.letter}</div>
+      <div class="t-name">${t.name}</div>
+      <div class="t-ticker">${t.name}·${BASE.slice(0,8)}…</div>
+      <div class="t-link"><i class="ti ti-external-link"></i> StellarExpert</div>
+    `;
+    grid.appendChild(card);
+  });
+</script>
+</body>
+</html>
