@@ -1,0 +1,114 @@
+# stellar.toml — SEP-0001 Stellar Info File
+# Served at https://stellarexpert.vercel.app/.well-known/stellar.toml
+
+VERSION = "2.0.0"
+
+ACCOUNTS = [
+  "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+]
+
+[DOCUMENTATION]
+ORG_NAME = "StellarExpert Token Hub"
+ORG_DBA = "StellarExpert Token Hub DBA"
+ORG_URL = "https://stellarexpert.vercel.app"
+ORG_DESCRIPTION = "StellarExpert Token Hub is an infrastructure collective issuing a suite of utility tokens that power the Stellar ecosystem — from core consensus to public horizons."
+ORG_LOGO = "https://stellarexpert.vercel.app/icon.svg"
+
+[[CURRENCIES]]
+code = "Core"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Core"
+desc = "Core is the foundational asset securing the protocol's consensus layer. It coordinates ledger close incentives and anchors the economic guarantees that every other token in the suite depends on."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/core.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "Futurenet"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Futurenet"
+desc = "Futurenet is the bleeding-edge experimentation asset. It gates access to pre-release protocol features and lets developers trial upcoming smart contract capabilities before they reach Mainnet."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/futurenet.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "Horizon"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Horizon"
+desc = "Horizon meters access to the high-availability API layer that applications use to submit transactions and stream ledger data. Holding Horizon unlocks elevated request quotas and priority routing."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/horizon.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "Hubble"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Hubble"
+desc = "Hubble powers the analytics and data-warehouse layer, giving holders queryable access to historical ledger state, enriched event indexes, and on-chain observability dashboards."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/hubble.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "Mainnet"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Mainnet"
+desc = "Mainnet represents a stake in the live production network. It is the canonical settlement asset where real value moves, backed by the full validator set and consensus guarantees."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/mainnet.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "Node"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Node"
+desc = "Node rewards operators who run full nodes that replicate and serve ledger history. Staking Node signals participation in the peer-to-peer fabric that keeps the network resilient and decentralized."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/node.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "RPC"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "RPC"
+desc = "RPC governs metered access to the remote procedure call endpoints used for contract simulation and submission. It balances load across providers and rewards reliable endpoint operators."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/rpc.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "Testnet"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Testnet"
+desc = "Testnet is the no-stakes sandbox asset. Freely faucetable, it lets builders deploy, break, and iterate on contracts in an environment that mirrors Mainnet without touching real value."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/testnet.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
+
+[[CURRENCIES]]
+code = "Validator"
+issuer = "GBSYAHA6JPP4O3PA2EAZXREYGUAIUPIWWJPSD5OCLI3ILXDNFB5PRSMD"
+name = "Validator"
+desc = "Validator is the bonding asset for entities that vote on ledger close. Validators stake it to participate in consensus, earning rewards for honest behavior and risking slashing for faults."
+display_decimals = 7
+image = "https://stellarexpert.vercel.app/tokens/validator.png"
+is_asset_anchored = false
+status = "live"
+fixed_number = 100000000000
